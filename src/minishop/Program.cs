@@ -35,7 +35,6 @@ try
     )
     .AddRoles<IdentityRole>()
     .AddDefaultUI()
-    .AddDefaultTokenProviders()
     .AddEntityFrameworkStores<ApplicationDbContext>();
 
     // Add services to the container.
