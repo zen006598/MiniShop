@@ -23,13 +23,16 @@ try
 
     builder.Services.AddDefaultIdentity<IdentityUser>(options =>
        {
+           options.SignIn.RequireConfirmedAccount = false;
            options.Password.RequireDigit = false;
            options.Password.RequiredLength = 6;
            options.Password.RequireNonAlphanumeric = false;
            options.Password.RequireUppercase = false;
            options.Password.RequireLowercase = true;
        }
-    ).AddEntityFrameworkStores<ApplicationDbContext>();
+    )
+    .AddRoles<IdentityRole>()
+    .AddEntityFrameworkStores<ApplicationDbContext>();
 
     // Add services to the container.
     builder.Services.AddControllersWithViews();
@@ -42,6 +45,39 @@ try
     {
         app.UseExceptionHandler("/Home/Error");
         app.UseHsts();
+    }
+    //TODO: refactor move to single method
+    using (var scope = app.Services.CreateScope())
+    {
+        var services = scope.ServiceProvider;
+        var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
+        string[] roles = { "Admin", "User" };
+        foreach (var role in roles)
+        {
+            var roleExist = await roleManager.RoleExistsAsync(role);
+            if (!roleExist)
+            {
+                await roleManager.CreateAsync(new IdentityRole(role));
+            }
+        }
+    }
+    //TODO: refactor move to single method
+    using (var scope = app.Services.CreateScope())
+    {
+        var services = scope.ServiceProvider;
+        var userManager = services.GetRequiredService<UserManager<IdentityUser>>();
+        string email = "admin123@admin";
+        string password = "admin123";
+        if (await userManager.FindByEmailAsync(email) is null)
+        {
+            var user = new IdentityUser
+            {
+                Email = email,
+                UserName = email
+            };
+            await userManager.CreateAsync(user, password);
+            await userManager.AddToRoleAsync(user, "Admin");
+        }
     }
 
     app.UseHttpsRedirection();
