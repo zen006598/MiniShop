@@ -9,9 +9,20 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
 {
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
 
+    public DbSet<Product> Products { get; set; }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);
+
+        builder
+            .Entity<Product>()
+            .Property(p => p.Status)
+            .HasConversion<int>();
+
+        builder
+            .Entity<Product>()
+            .Property(p => p.Price)
+            .HasColumnType("decimal(18, 2)");
     }
 }
