@@ -1,11 +1,12 @@
 using Microsoft.AspNetCore.Identity;
+using minishop.Models;
 
 namespace minishop.Services;
 
 public class IdentityInitializerService
 {
 
-    public static async Task SeedData(UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager)
+    public static async Task SeedData(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager)
     {
         await SeedRoles(roleManager);
         await SeedUsers(userManager);
@@ -24,14 +25,14 @@ public class IdentityInitializerService
         }
     }
 
-    private static async Task SeedUsers(UserManager<IdentityUser> userManager)
+    private static async Task SeedUsers(UserManager<ApplicationUser> userManager)
     {
         string email = "admin123@admin.com";
         string password = "admin123";
 
         if (await userManager.FindByEmailAsync(email) is null)
         {
-            var user = new IdentityUser
+            var user = new ApplicationUser
             {
                 UserName = email,
                 Email = email

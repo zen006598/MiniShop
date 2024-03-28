@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using minishop.Data;
 using Serilog;
 using minishop.Services;
+using minishop.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 //log config from appsettings.json
@@ -22,7 +23,7 @@ try
     builder.Services.AddDbContext<ApplicationDbContext>(options =>
         options.UseSqlServer(mssqlConnection));
 
-    builder.Services.AddDefaultIdentity<IdentityUser>(options =>
+    builder.Services.AddDefaultIdentity<ApplicationUser>(options =>
        {
            options.SignIn.RequireConfirmedAccount = false;
            options.Password.RequireDigit = false;
@@ -33,6 +34,8 @@ try
        }
     )
     .AddRoles<IdentityRole>()
+    .AddDefaultUI()
+    .AddDefaultTokenProviders()
     .AddEntityFrameworkStores<ApplicationDbContext>();
 
     // Add services to the container.
@@ -49,7 +52,7 @@ try
     }
     using (var scope = app.Services.CreateScope())
     {
-        var userManager = scope.ServiceProvider.GetRequiredService<UserManager<IdentityUser>>();
+        var userManager = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
         var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
         await IdentityInitializerService.SeedData(userManager, roleManager);
     }
