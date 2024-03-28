@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using minishop.Models;
 
@@ -17,7 +18,7 @@ public class HomeController : Controller
     {
         return View();
     }
-
+    [Authorize(Roles = "User")]
     public IActionResult Privacy()
     {
         return View();

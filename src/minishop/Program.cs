@@ -3,6 +3,7 @@ using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using minishop.Data;
 using Serilog;
+using minishop.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 //log config from appsettings.json
@@ -46,38 +47,11 @@ try
         app.UseExceptionHandler("/Home/Error");
         app.UseHsts();
     }
-    //TODO: refactor move to single method
     using (var scope = app.Services.CreateScope())
     {
-        var services = scope.ServiceProvider;
-        var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
-        string[] roles = { "Admin", "User" };
-        foreach (var role in roles)
-        {
-            var roleExist = await roleManager.RoleExistsAsync(role);
-            if (!roleExist)
-            {
-                await roleManager.CreateAsync(new IdentityRole(role));
-            }
-        }
-    }
-    //TODO: refactor move to single method
-    using (var scope = app.Services.CreateScope())
-    {
-        var services = scope.ServiceProvider;
-        var userManager = services.GetRequiredService<UserManager<IdentityUser>>();
-        string email = "admin123@admin";
-        string password = "admin123";
-        if (await userManager.FindByEmailAsync(email) is null)
-        {
-            var user = new IdentityUser
-            {
-                Email = email,
-                UserName = email
-            };
-            await userManager.CreateAsync(user, password);
-            await userManager.AddToRoleAsync(user, "Admin");
-        }
+        var userManager = scope.ServiceProvider.GetRequiredService<UserManager<IdentityUser>>();
+        var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+        await IdentityInitializerService.SeedData(userManager, roleManager);
     }
 
     app.UseHttpsRedirection();
