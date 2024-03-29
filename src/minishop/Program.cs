@@ -41,6 +41,8 @@ try
     builder.Services.AddControllersWithViews();
 
     builder.Host.UseSerilog();
+    //Auto mapper
+    builder.Services.AddAutoMapper(typeof(Program));
 
     var app = builder.Build();
 
