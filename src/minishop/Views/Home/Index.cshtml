@@ -1,8 +1,36 @@
-﻿@{
+﻿@model IEnumerable<minishop.Controllers.DTOs.ViewModels.ProductViewModel>;
+@{
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+
+<div class="card-group">
+    @foreach (var product in Model)
+    {
+        <a asp-controller="Product" asp-action="Details" asp-route-id="@product.Id" class='card-link'>
+            <div class="card" style="width: 18rem;">
+                <img class="card-img-top" src="..." alt="Card image cap">
+                <div class="card-body">
+                    <h5 class="card-title">@product.Name</h5>
+                    <div class="card-text">
+                        <div>
+                            Price
+                            <span>@product.Price</span>
+                        </div>
+                        <div>
+                            Quantity in stock
+                            @if (product.Quantity > 0)
+                            {
+                                <span>@product.Quantity</span>
+                            }
+                            else
+                            {
+                                <span class="text-danger">Out of stock</span>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </a>
+    }
 </div>

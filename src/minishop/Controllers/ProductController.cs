@@ -83,6 +83,15 @@ public class ProductController : Controller
         return View(parameter);
     }
 
+    [HttpGet("Details/{id}")]
+    public async Task<IActionResult> Detail(int id)
+    {
+        var product = await _product.GetAsync(id);
+        if (product is null) return NotFound();
+        var productViewModel = _mapper.Map<ProductResultModel, ProductViewModel>(product);
+        return View(productViewModel);
+    }
+
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public IActionResult Error()
     {
