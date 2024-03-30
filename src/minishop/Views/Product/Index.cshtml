@@ -1,0 +1,28 @@
+@model IEnumerable<minishop.Controllers.DTOs.ViewModels.ProductViewModel>
+@{
+    ViewData["Title"] = "Index";
+}
+
+
+<div class="card-group">
+    @foreach (var product in Model)
+    {
+        <div class="card" style="width: 18rem;">
+            <img class="card-img-top" src="..." alt="Card image cap">
+            <div class="card-body">
+                <h5 class="card-title">@product.Name</h5>
+                <div class="card-text">
+                    <div>
+                        Price
+                        <span>@product.Price</span>
+                    </div>
+                    <div>
+                        Quantity in stock
+                        <span>@product.Quantity</span>
+                    </div>
+                </div>
+                <a asp-controller="Product" asp-action="Edit" asp-route-id="@product.Id" class="btn btn-primary">Edit</a>
+            </div>
+        </div>
+    }
+</div>

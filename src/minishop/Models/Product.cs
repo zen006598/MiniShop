@@ -10,7 +10,9 @@ public class Product
   [Required]
   public string Name { get; set; } = null!;
   public string? Description { get; set; }
+  [Range(0, 99999)]
   public int Quantity { get; set; } = 0;
+  [Range(0, 99999)]
   public decimal Price { get; set; }
   public DateTime CreateAt { get; set; }
   [Required]
