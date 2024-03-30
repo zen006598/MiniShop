@@ -5,6 +5,9 @@ using minishop.Data;
 using Serilog;
 using minishop.Services;
 using minishop.Models;
+using minishop.Repositories.Interfaces;
+using minishop.Repositories;
+using minishop.Services.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 //log config from appsettings.json
@@ -43,6 +46,10 @@ try
     builder.Host.UseSerilog();
     //Auto mapper
     builder.Services.AddAutoMapper(typeof(Program));
+
+    //DI Services / Repositories
+    builder.Services.AddScoped<IProductRepository, ProductRepository>();
+    builder.Services.AddScoped<IProductService, ProductService>();
 
     var app = builder.Build();
 
