@@ -1,0 +1,86 @@
+@model minishop.Controllers.DTOs.ViewModels.ShoppingCartViewModel;
+@{
+    ViewData["Title"] = "Index";
+}
+
+<div class="container py-5 h-100">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+        <div class="col">
+            <div class="card">
+                <div class="card-body p-4">
+
+                    <div class="row">
+
+                        <div class="">
+                            <div class="d-flex justify-content-between align-items-center mb-4">
+                                <div>
+                                    <h2 class="mb-1">Shopping cart</h2>
+                                </div>
+                                <div>
+                                </div>
+                            </div>
+                            @if (Model.Items.Count == 0)
+                            {
+                                <div>
+                                    <h4>Your cart is empty.</h4>
+                                </div>
+                            }
+                            @foreach (var item in Model.Items)
+                            {
+                                <div class="card mb-3" id="cartItem-@item.ProductId">
+                                    <div class="card-body">
+                                        <div class="d-flex justify-content-between">
+                                            <div class="d-flex flex-row align-items-center">
+                                                <div>
+                                                    <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-shopping-carts/img1.webp"
+                                                        class="img-fluid rounded-3" alt="Shopping item"
+                                                        style="width: 65px;">
+                                                </div>
+                                                <div class="ms-3">
+                                                    <h5>@item.ProductName</h5>
+                                                </div>
+                                            </div>
+                                            <div class="d-flex flex-row align-items-center">
+                                                <div style="width: 50px;">
+                                                    <h5 class="fw-normal mb-0">@item.Quantity</h5>
+                                                </div>
+                                                <div style="width: 80px;">
+                                                    <h5 class="mb-0">$@item.Price</h5>
+                                                </div>
+                                                <div>
+                                                    <h5 class="mb-0">$@item.SubTotal</h5>
+                                                </div>
+                                                @* TODO : 確保回傳正確才做刪除 *@
+                                                @* TODO : refactor 用回傳json 做更新item list *@
+                                                <a class='text-danger'
+                                                    hx-get="/api/ShoppingCartApi/RemoveItemFromCart?id=@item.ProductId"
+                                                    hx-trigger="click" hx-target="#messages"
+                                                    hx-on:htmx:after-request='showMessage();removeCartItem(@item.ProductId);'>
+                                                    Delete
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+            <div>
+                <h3>Amount $@Model.Amount</h3>
+            </div>
+            <button type="button" class="btn btn-info btn-block btn-lg">
+                <div class="d-flex justify-content-between">
+                    <span>Checkout</span>
+                </div>
+            </button>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <script src="~/js//cartItemRemove.js"></script>
+}
