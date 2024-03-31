@@ -2,14 +2,12 @@
 @{
     ViewData["Title"] = "Home Page";
 }
-
-
 <div class="card-group">
     @foreach (var product in Model)
     {
         <a asp-controller="Product" asp-action="Details" asp-route-id="@product.Id" class='card-link'>
             <div class="card" style="width: 18rem;">
-                <img class="card-img-top" src="..." alt="Card image cap">
+                <img class="card-img-top" alt="Card image cap">
                 <div class="card-body">
                     <h5 class="card-title">@product.Name</h5>
                     <div class="card-text">
@@ -27,6 +25,12 @@
                             {
                                 <span class="text-danger">Out of stock</span>
                             }
+                        </div>
+                        <div>
+                            <a hx-get="/api/ShoppingCartApi/AddToCart?id=@product.Id" hx-trigger="click"
+                                hx-target="#messages" hx-on:htmx:after-request='showMessage()' class="btn btn-primary">
+                                ADD TO CART
+                            </a>
                         </div>
                     </div>
                 </div>

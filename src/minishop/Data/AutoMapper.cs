@@ -14,6 +14,7 @@ public class AutoMapper : Profile
 {
     public AutoMapper()
     {
+        #region Product Mapping
         CreateMap<Product, ProductDataModel>();
         CreateMap<ProductCondition, Product>();
         CreateMap<ProductUpdateCondition, Product>();
@@ -24,5 +25,6 @@ public class AutoMapper : Profile
         CreateMap<ProductResultModel, ProductViewModel>();
         CreateMap<ProductInfo, ProductCondition>();
         CreateMap<ProductParameter, ProductInfo>();
+        #endregion Product Mapping
     }
 }
