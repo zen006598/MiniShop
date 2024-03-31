@@ -8,6 +8,7 @@ using minishop.Models;
 using minishop.Repositories.Interfaces;
 using minishop.Repositories;
 using minishop.Services.Interfaces;
+using minishop.SeedData;
 
 var builder = WebApplication.CreateBuilder(args);
 //log config from appsettings.json
@@ -70,6 +71,11 @@ try
         var userManager = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
         var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
         await IdentityInitializerService.SeedData(userManager, roleManager);
+        var adminUser = await userManager.FindByEmailAsync("admin123@admin.com");
+        if (adminUser is not null)
+        {
+            ProductSeedData.Initialize(scope.ServiceProvider, adminUser.Id);
+        }
     }
 
     app.UseHttpsRedirection();
