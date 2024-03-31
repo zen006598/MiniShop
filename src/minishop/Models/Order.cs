@@ -6,7 +6,7 @@ public class Order
 {
     public Guid Id { get; set; }
     [Required]
-    public string? Name { get; set; } = null!;
+    public string Name { get; set; } = null!;
     [Required]
     public string ReceiverName { get; set; } = null!;
     [Required]
@@ -20,4 +20,5 @@ public class Order
     public OrderStatus Status { get; set; } = OrderStatus.Processing;
     public string? UserId { get; set; } = null!;
     public ICollection<ApplicationUser> ApplicationUser { get; set; } = null!;
+    public DateTime CreateAt { get; set; }
 }

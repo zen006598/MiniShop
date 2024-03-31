@@ -44,6 +44,5 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
             .Entity<OrderItem>()
             .Property(p => p.Price)
             .HasColumnType("decimal(18, 2)");
-
     }
 }
