@@ -6,8 +6,6 @@ public class Order
 {
     public Guid Id { get; set; }
     [Required]
-    public string? UserId { get; set; } = null!;
-    [Required]
     public string? Name { get; set; } = null!;
     [Required]
     public string ReceiverName { get; set; } = null!;
@@ -20,4 +18,6 @@ public class Order
     public decimal ReceivedAmount { get; set; } = 0;
     public List<OrderItem> OrderItems { get; set; } = new List<OrderItem>();
     public OrderStatus Status { get; set; } = OrderStatus.Processing;
+    public string? UserId { get; set; } = null!;
+    public ICollection<ApplicationUser> ApplicationUser { get; set; } = null!;
 }
