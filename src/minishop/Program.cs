@@ -43,6 +43,12 @@ try
     // Add services to the container.
     builder.Services.AddControllersWithViews();
 
+    builder.Services.AddControllers();
+
+    builder.Services.AddSession();
+
+    builder.Services.AddHttpContextAccessor();
+
     builder.Host.UseSerilog();
     //Auto mapper
     builder.Services.AddAutoMapper(typeof(Program));
@@ -50,6 +56,7 @@ try
     //DI Services / Repositories
     builder.Services.AddScoped<IProductRepository, ProductRepository>();
     builder.Services.AddScoped<IProductService, ProductService>();
+    builder.Services.AddScoped<IShoppingCartService, ShoppingCartService>();
 
     var app = builder.Build();
 
@@ -80,6 +87,8 @@ try
         pattern: "{controller=Home}/{action=Index}/{id?}");
 
     app.MapRazorPages();
+
+    app.UseSession();
 
     app.Run();
 
