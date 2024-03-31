@@ -15,6 +15,9 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         base.OnModelCreating(builder);
 
+        builder.Ignore<ShoppingCart>();
+        builder.Ignore<ShoppingCartItem>();
+
         builder
             .Entity<Product>()
             .Property(p => p.Status)
