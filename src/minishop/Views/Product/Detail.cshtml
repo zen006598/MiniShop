@@ -11,3 +11,8 @@
 }
 <p>Price: @Model.Price</p>
 <p>Quantity: @Model.Quantity</p>
+
+<a hx-get="/api/ShoppingCartApi/AddToCart?id=@Model.Id" hx-trigger="click" hx-target="#messages"
+    hx-on:htmx:after-request='showMessage()' class="btn btn-primary">
+    ADD TO CART
+</a>
