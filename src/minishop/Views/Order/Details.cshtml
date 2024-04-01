@@ -1,0 +1,50 @@
+@using minishop.Commons
+@model minishop.Controllers.DTOs.ViewModels.OrderViewModel
+@{
+    ViewData["Title"] = "Details";
+}
+
+
+<div>
+    <div>
+        @Model.Id
+    </div>
+    <div>
+        @Model.Name
+    </div>
+    <div>
+        @Model.OrderItems.Count()
+    </div>
+    <div>
+        @Model.Status
+    </div>
+    <div>
+        @foreach (var item in Model.OrderItems)
+        {
+            <div>
+                @item.ProductName
+            </div>
+            <div>
+                @item.Price
+            </div>
+            <div>
+                @item.Quantity
+            </div>
+            <div>
+                @item.SubTotal
+            </div>
+        }
+    </div>
+    @if (@Model.Status == OrderStatus.Cancel)
+    {
+        <p class="text-danger">
+            Order has been cancelled
+        </p>
+    }
+    else
+    {
+        <div>
+            <a asp-controller="Order" asp-action="Cancel" asp-route-id="@Model.Id" class='btn btn-danger'>Cancel</a>
+        </div>
+    }
+</div>

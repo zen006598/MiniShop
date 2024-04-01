@@ -1,0 +1,28 @@
+@model IEnumerable<minishop.Controllers.DTOs.ViewModels.OrderViewModel>
+@{
+    ViewData["Title"] = "Index";
+}
+<div>
+    @foreach (var order in Model)
+    {
+        <a asp-controller="Order" asp-action="Details" asp-route-id="@order.Id" class="card-link">
+            <div>
+                Order No :
+                @order.Id
+            </div>
+            <div>
+                Customer Name :
+                @order.Name
+            </div>
+            <div>
+                Order Amount :
+                @order.Amount
+            </div>
+            <div>
+                Status :
+                @order.Status
+            </div>
+        </a>
+
+    }
+</div>
