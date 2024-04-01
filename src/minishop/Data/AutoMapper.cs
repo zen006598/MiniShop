@@ -41,16 +41,16 @@ public class AutoMapper : Profile
 
         CreateMap<ShoppingCartItem, OrderItem>()
             .ForMember(dest => dest.ProductId, opt => opt.MapFrom(src => src.ProductId.ToString()))
-            .ForMember(dest => dest.Price, opt => opt.MapFrom(src => src.Price))
-            .ForMember(dest => dest.Quantity, opt => opt.MapFrom(src => src.Quantity))
             .ForMember(dest => dest.Order, opt => opt.Ignore())
             .ForMember(dest => dest.OrderId, opt => opt.Ignore());
         CreateMap<OrderCreateParameter, OrderCreateViewModel>();
+
+        CreateMap<OrderParameter, OrderSearchingViewModel>()
+            .ForMember(dest => dest.Orders, opt => opt.Ignore());
         #endregion Order Mapping
 
         #region Order Item Mapping
         CreateMap<OrderItem, OrderItemDataModel>();
         #endregion Order Item Mapping
-
     }
 }

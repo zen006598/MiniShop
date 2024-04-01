@@ -1,4 +1,3 @@
-using System.Security.Claims;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -34,8 +33,8 @@ public class OrderController : Controller
         _shoppingCart = shoppingCartService;
         _userManager = userManager;
     }
-    [HttpGet("Index")]
-    public async Task<IActionResult> Index(OrderParameter parameter)
+    [HttpGet("Index"), Authorize(Roles = "Admin")]
+    public async Task<IActionResult> Index(OrderParameter? parameter)
     {
         var info = _mapper.Map<
             OrderParameter,
@@ -46,7 +45,16 @@ public class OrderController : Controller
         var result = _mapper.Map<
             IEnumerable<OrderResultModel>,
             IEnumerable<OrderViewModel>>(orders);
-        return View(result);
+
+
+        var orderSearchingViewModel = new OrderSearchingViewModel
+        {
+
+            Orders = result
+        };
+        _mapper.Map(parameter, orderSearchingViewModel);
+
+        return View(orderSearchingViewModel);
     }
     [HttpGet("Checkout")]
     public IActionResult New()

@@ -1,28 +1,76 @@
-@model IEnumerable<minishop.Controllers.DTOs.ViewModels.OrderViewModel>
+@using minishop.Commons
+@model minishop.Controllers.DTOs.ViewModels.OrderSearchingViewModel
 @{
     ViewData["Title"] = "Index";
 }
+
+<form asp-controller="Order" asp-action="Index" method='get'>
+    <div asp-validation-summary="All" class="text-danger"></div>
+    <div class="form-group">
+        <label for="Id">Order No</label>
+        <input type="text" class="form-control" asp-for="Id">
+        <span asp-validation-for="Id" class="text-red-600"></span>
+    </div>
+
+    <div class="form-group">
+        <label for="Name">Name</label>
+        <input type="number" class="form-control" asp-for="Name">
+        <span asp-validation-for="Name" class="text-red-600"></span>
+    </div>
+
+    <div class="form-group">
+        <label for="Status">Order Status</label>
+        <select asp-for="Status" class="form-control" asp-items="Html.GetEnumSelectList<OrderStatus>()">
+            <option value="">All</option>
+        </select>
+        <span asp-validation-for="Status" class="text-red-600"></span>
+    </div>
+
+    <div class="form-group">
+        <label for="ReceiverPhone">Receiver Phone</label>
+        <input type="area" class="form-control" asp-for="ReceiverPhone">
+        <span asp-validation-for="ReceiverPhone" class="text-red-600"></span>
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+
 <div>
-    @foreach (var order in Model)
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h2 class="mb-1">Orders</h2>
+        </div>
+        <div>
+        </div>
+    </div>
+    @foreach (var order in Model.Orders)
     {
-        <a asp-controller="Order" asp-action="Details" asp-route-id="@order.Id" class="card-link">
-            <div>
-                Order No :
-                @order.Id
-            </div>
-            <div>
-                Customer Name :
-                @order.Name
-            </div>
-            <div>
-                Order Amount :
-                @order.Amount
-            </div>
-            <div>
-                Status :
-                @order.Status
+        <a asp-controller="Order" asp-action="Details" asp-route-id="@order.Id" class='card-link'>
+            <div class="card mb-3">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between">
+                        <div>
+                            <div class="ms-3">
+                                <h5>@order.Id</h5>
+                            </div>
+                            <div>
+
+                                <div style="width: 50px;">
+                                    <h5 class="fw-normal mb-0">@order.Name</h5>
+                                </div>
+                                <div style="width: 80px;">
+                                    <h5 class="mb-0">$ @order.Amount</h5>
+                                </div>
+                                <div>
+                                    <h5 class="mb-0">@order.Status</h5>
+                                </div>
+                                <div>
+                                    <h5 class="mb-0">@order.ReceiverPhone</h5>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </a>
-
     }
 </div>

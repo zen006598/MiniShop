@@ -69,11 +69,6 @@ public class OrderRepository : IOrderRepository
             query = query.Where(o => o.Id == condition.Id);
         }
 
-        if (!string.IsNullOrEmpty(condition.UserId))
-        {
-            query = query.Where(o => o.UserId == condition.UserId);
-        }
-
         if (!string.IsNullOrEmpty(condition.Name))
         {
             query = query.Where(o => o.Name.Contains(condition.Name));
