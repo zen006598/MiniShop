@@ -32,9 +32,7 @@
                                         <div class="d-flex justify-content-between">
                                             <div class="d-flex flex-row align-items-center">
                                                 <div>
-                                                    <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-shopping-carts/img1.webp"
-                                                        class="img-fluid rounded-3" alt="Shopping item"
-                                                        style="width: 65px;">
+                                                    @* img *@
                                                 </div>
                                                 <div class="ms-3">
                                                     <h5>@item.ProductName</h5>
@@ -63,21 +61,16 @@
                                     </div>
                                 </div>
                             }
-
                         </div>
-
                     </div>
-
                 </div>
             </div>
             <div>
                 <h3>Amount $@Model.Amount</h3>
             </div>
-            <button type="button" class="btn btn-info btn-block btn-lg">
-                <div class="d-flex justify-content-between">
-                    <span>Checkout</span>
-                </div>
-            </button>
+            <a class="btn btn-info btn-block btn-lg" asp-controller="Order" asp-action="Checkout" mehtod="get">
+                Checkout
+            </a>
         </div>
     </div>
 </div>
