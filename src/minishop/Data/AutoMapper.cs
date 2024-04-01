@@ -19,12 +19,38 @@ public class AutoMapper : Profile
         CreateMap<ProductCondition, Product>();
         CreateMap<ProductUpdateCondition, Product>();
         CreateMap<ProductParameter, ProductInfo>();
-        CreateMap<ProductInfo, ProductCondition>();
         CreateMap<ProductInfo, ProductUpdateCondition>();
         CreateMap<ProductDataModel, ProductResultModel>();
         CreateMap<ProductResultModel, ProductViewModel>();
         CreateMap<ProductInfo, ProductCondition>();
         CreateMap<ProductParameter, ProductInfo>();
         #endregion Product Mapping
+
+        #region Order Mapping
+        CreateMap<Order, OrderDataModel>();
+        CreateMap<OrderCondition, Order>();
+        // CreateMap<OrderUpdateCondition, Order>();
+        CreateMap<OrderParameter, OrderInfo>();
+        CreateMap<OrderParameter, OrderSearchInfo>();
+        CreateMap<OrderSearchInfo, OrderSearchCondition>();
+        // CreateMap<OrderInfo, OrderUpdateCondition>();
+        CreateMap<OrderDataModel, OrderResultModel>();
+        CreateMap<OrderResultModel, OrderViewModel>();
+        CreateMap<OrderInfo, OrderCondition>();
+        CreateMap<OrderCreateParameter, OrderInfo>();
+
+        CreateMap<ShoppingCartItem, OrderItem>()
+            .ForMember(dest => dest.ProductId, opt => opt.MapFrom(src => src.ProductId.ToString()))
+            .ForMember(dest => dest.Price, opt => opt.MapFrom(src => src.Price))
+            .ForMember(dest => dest.Quantity, opt => opt.MapFrom(src => src.Quantity))
+            .ForMember(dest => dest.Order, opt => opt.Ignore())
+            .ForMember(dest => dest.OrderId, opt => opt.Ignore());
+        CreateMap<OrderCreateParameter, OrderCreateViewModel>();
+        #endregion Order Mapping
+
+        #region Order Item Mapping
+        CreateMap<OrderItem, OrderItemDataModel>();
+        #endregion Order Item Mapping
+
     }
 }
