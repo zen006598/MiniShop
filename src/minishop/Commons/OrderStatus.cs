@@ -6,6 +6,7 @@ namespace minishop.Commons
         Finish,
         Shipping,
         Refund,
-        Processing
+        Processing,
+        Pending
     }
 }
