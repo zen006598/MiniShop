@@ -83,7 +83,7 @@ public class ProductController : Controller
         return View(parameter);
     }
 
-    [HttpGet("Details/{id}")]
+    [HttpGet("Details/{id}"), AllowAnonymous]
     public async Task<IActionResult> Detail(int id)
     {
         var product = await _product.GetAsync(id);
