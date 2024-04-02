@@ -6,7 +6,7 @@ public class OrderItem
 {
     public int Id { get; set; }
     [Required]
-    public string ProductId { get; set; } = null!;
+    public int ProductId { get; set; }
     [Range(0, 99999)]
     public decimal Price { get; set; }
     public decimal SubTotal => Math.Ceiling(Math.Round(Price * Quantity, 2));
